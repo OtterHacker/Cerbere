@@ -63,54 +63,8 @@ void buildASREQ() {
 	return;
 }
 
-UINT32 HashString(PVOID buffer, ULONG size)
-{
-	UCHAR       Cur = 0;
-	ULONG       Djb = 0;
-	PUCHAR      Ptr = NULL;
-
-	Djb = 5380;
-	Ptr = (PVOID)(buffer);
-	Djb++;
-
-	while (TRUE)
-	{
-		Cur = *Ptr;
-
-		if (!size)
-		{
-			if (!*Ptr)
-			{
-				break;
-			};
-		}
-		else
-		{
-			if ((ULONG)(Ptr - (PUCHAR)buffer) >= size)
-			{
-				break;
-			};
-			if (!*Ptr)
-			{
-				++Ptr; continue;
-			};
-		};
-
-		if (Cur >= 'a')
-		{
-			Cur -= 0x20;
-		};
-
-		Djb = ((Djb << 5) + Djb) + Cur; ++Ptr;
-	};
-	return Djb;
-};
-
 #define NT_SUCCESS(Status) ((NTSTATUS)(Status) >= 0)
 int main(int argc, char** argv) {
-	UINT32 val = HashString("NtTraceEvent", strlen("NtTraceEvent"));
-	printf("%x", val);
-	return 0;
 	loadCryptoFunctions();
 	buildASREQ();
 	return 0;
